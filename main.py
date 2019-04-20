@@ -57,11 +57,11 @@ async def on_message(message):
 
     if 'basil cure my depression' in content:
         msg = 'no'
-        await client.send_message(message.channel, msg)
+        await message.channel.send(msg)
 
     elif 'basil pay respects' in content:
         msg = 'F'
-        await client.send_message(message.channel, msg)
+        await message.channel.send(msg)
 
     elif 'basil play' in content:
         p = subprocess.Popen(["/usr/bin/mpv",
@@ -72,7 +72,7 @@ async def on_message(message):
             stderr=subprocess.STDOUT)
 
         msg = 'Now playing: Despacito ft. Daddy Yankee'
-        await client.send_message(message.channel, msg)
+        await message.channel.send(msg)
 
     elif content.startswith('!basil '):
         cmd = content[7:]
@@ -130,7 +130,7 @@ async def on_message(message):
                         msg = "{} seconds of S i p p\n".format(tau)
                         __state['lastWaterTime'] = time.time()
 
-        await client.send_message(message.channel, msg)
+        await message.channel.send(msg)
 
 @client.event
 async def on_ready():
