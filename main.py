@@ -87,7 +87,7 @@ async def on_message(message):
         elif cmd.startswith('history'):
             lines = [];
             num = 12
-            with open('/home/pi/Arduino/data/history.csv','r') as f:
+            with open('data/history.csv','r') as f:
                 reader = csv.reader(f,delimiter=',')
                 lines = [row for row in reader]
             try:
