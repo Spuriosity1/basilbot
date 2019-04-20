@@ -65,6 +65,7 @@ async def on_message(message):
 
     elif 'basil play' in content:
         p = subprocess.Popen(["/usr/bin/omxplayer",
+            "--no-keys",
             "/home/pi/music/.despacito.mp3"],
             stderr=subprocess.STDOUT)
 
