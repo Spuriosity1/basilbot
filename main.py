@@ -64,17 +64,14 @@ async def on_message(message):
         await message.channel.send(msg)
 
     elif 'basil play' in content:
-        p = subprocess.Popen(["/usr/bin/mpv",
-            "--no-video",
-            "--idle",
-            "/home/pi/music/.despacito.mp3"
-            ],
+        p = subprocess.Popen(["/usr/bin/omxplayer",
+            "/home/pi/music/.despacito.mp3"],
             stderr=subprocess.STDOUT)
 
         msg = 'Now playing: Despacito ft. Daddy Yankee'
         await message.channel.send(msg)
 
-    elif content.startswith('!basil '):
+    elif content.startswith('!basil'):
         cmd = content[7:]
         msg = HELPTEXT
 
