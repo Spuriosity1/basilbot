@@ -95,7 +95,8 @@ async def on_message(message):
 
             msg = "Date \t\t| \t moisture\n"
             for row in lines[-num:]:
-                msg += '{} \t\t| \t {:.1f}\n'.format(row[0], float(row[1])/5)
+
+                msg += '{} \t\t| \t {:.1f}\n'.format(row[0].replace('T',' '), float(row[1])/5)
 
         elif cmd.startswith('water'):
             # NOTE: This needs a heuristic model of soil moisture
