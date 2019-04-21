@@ -17,6 +17,8 @@ HELPTEXT='''Commands:
 !basil moisture
 !basil history
 !basil help
+!basil flip the table
+!basil chuck a yeet
 '''
 
 client=discord.Client()
@@ -55,11 +57,7 @@ async def on_message(message):
 
     content = message.content.lower()
 
-    if 'basil cure my depression' in content:
-        msg = 'no'
-        await message.channel.send(msg)
-
-    elif 'basil pay respects' in content:
+    if 'basil pay respects' in content:
         msg = 'F'
         await message.channel.send(msg)
 
@@ -72,7 +70,7 @@ async def on_message(message):
         msg = 'Now playing: Despacito ft. Daddy Yankee'
         await message.channel.send(msg)
 
-    elif content.startswith('!basil'):
+    elif content.startswith('!basil') or content.startswith('basil,'):
         cmd = content[7:]
         msg = HELPTEXT
 
@@ -128,7 +126,10 @@ async def on_message(message):
                         pumpPulse(ser, 255, tau*1000)
                         msg = "{} seconds of S i p p\n".format(tau)
                         __state['lastWaterTime'] = time.time()
-
+        elif cmd.startswith('chuck a yeet'):
+            msg='(╯°□°）╯︵ YEET'
+        elif cmd.startswith('flip the table'):
+            msg='(╯°□°）╯︵ ┻━┻'
         await message.channel.send(msg)
 
 @client.event
