@@ -34,6 +34,6 @@ def sample_data(N):
     return [time.strftime('%Y-%m-%dT%H:%M:%S')] + [ x/N for x in data]
 
 
-with open("data/history.csv",'a') as f:
+with open("../data/history.csv",'a') as f:
     writer = csv.writer(f)
     writer.writerow(sample_data(args.N))
