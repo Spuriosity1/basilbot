@@ -81,7 +81,7 @@ async def on_message(message):
         elif cmd.startswith('history'):
             lines = [];
             num = 12
-            with open('data/history.csv','r') as f:
+            with open('../data/history.csv','r') as f:
                 reader = csv.reader(f,delimiter=',')
                 lines = [row for row in reader]
             try:
@@ -110,7 +110,7 @@ async def on_message(message):
                 with serial.Serial(port='/dev/ttyACM0', dsrdtr=True,
                                     baudrate=9600) as ser:
                     moisture= sample_data(ser, 5)[0]
-                    
+
                     if moisture > 70:
                         msg = 'You should not water me any more, the soil is'
                         msg += 'already {:.1f}% damp'.format(moisture)
