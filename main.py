@@ -47,8 +47,6 @@ def pumpPulse(ser, speed, power):
     print(ser.readline())
 
 
-__state = {'lastWaterTime': time.time()}
-
 @client.event
 async def on_message(message):
     # we do not want the bot to reply to itself
@@ -112,14 +110,8 @@ async def on_message(message):
                 with serial.Serial(port='/dev/ttyACM0', dsrdtr=True,
                                     baudrate=9600) as ser:
                     moisture= sample_data(ser, 5)[0]
-
-                    dT = time.time() - __state['lastWaterTime']
-
-                    if  dT < 1800:
-                        wait = int(30-(dT/60))
-                        msg='I was watered in the last half hour - you can '
-                        msg += 'tend to me again in {} minutes.'.format(wait)
-                    elif moisture > 70:
+                    
+                    if moisture > 70:
                         msg = 'You should not water me any more, the soil is'
                         msg += 'already {:.1f}% damp'.format(moisture)
                     else:
