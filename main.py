@@ -112,12 +112,16 @@ async def on_message(message):
                     moisture= sample_data(ser, 5)[0]
 
                     if moisture > 70:
-                        msg = 'You should not water me any more, the soil is'
+                        msg = 'You should not water me any more, the soil is '
                         msg += 'already {:.1f}% damp'.format(moisture)
                     else:
                         pumpPulse(ser, 255, tau*1000)
                         msg = "{} seconds of S i p p\n".format(tau)
-                        __state['lastWaterTime'] = time.time()
+
+        elif cmd.startswith('please run the motherfucking pump'):
+            # the super secret override message. Don't tell anyone.
+            pumpPulse(ser, 255, tau*1000)
+            msg = "{} seconds of S i p p\n".format(tau)
         elif cmd.startswith('chuck a yeet'):
             msg='(╯°□°）╯︵ YEET'
         elif cmd.startswith('flip the table'):
