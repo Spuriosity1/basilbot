@@ -12,9 +12,6 @@ SIZE = 2
 NPRINT=1000
 data=[]
 
-WEBHOOK = "https://discordapp.com/api/webhooks/548424706777415680/M-4DutCXJ5NJxOmK07Bwwmy1UyzWQW9R5aSTixpgCFU8CvDNfbvFw6wAzDUL-e3RiwA6"
-
-
 parser = argparse.ArgumentParser(description='Listens on specified port for two-byte words')
 
 parser.add_argument('-p',help='Port to listen on.', default='/dev/ttyACM0')
