@@ -3,6 +3,8 @@
 import sys
 from libbasil import *
 
+print("You'd better add the other dank responses back or Luke i swear to god")
+
 if sys.argv[1] == 'moisture':
     print(getMoisture())
 elif sys.argv[1] == 'history':

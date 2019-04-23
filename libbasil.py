@@ -42,5 +42,3 @@ def getHistory(num):
         msg += '| {} |     {:.1f}     |\n'.format(row[0].replace('T',' '), float(row[1])/5)
     msg += '+---------------------+--------------+'
     return msg
-
-
