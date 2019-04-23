@@ -12,7 +12,7 @@ SIZE = 2
 NPRINT=1000
 data=[]
 
-WEBHOOK = "https://discordapp.com/api/webhooks/548424706777415680/M-4DutCXJ5NJxOmK07Bwwmy1UyzWQW9R5aSTixpgCFU8CvDNfbvFw6wAzDUL-e3RiwA6"
+WEBHOOK = "https://discordapp.com/api/webhooks/569672015653371948/4dQlTM9QMBq3yXwtRKIxWhivrtVMUGQrmAAxCDcSgG3yNtp0asDJv6VFZIhmB--PdA6R"
 
 
 parser = argparse.ArgumentParser(description='Listens on specified port for two-byte words')
