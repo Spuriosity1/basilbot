@@ -12,7 +12,7 @@ elif sys.argv[1] == 'water':
     if getMoisture() >= 70:
         print('Already moist')
         sys.exit(0)
-    if runtime <= 0 or runtime >= 60:
+    if runtime <= 0 or runtime > 60:
         print('FAIL')
         sys.exit(0)
     pumpPulse(runtime)
