@@ -7,6 +7,8 @@ if sys.argv[1] == 'moisture':
     print(getMoisture())
 elif sys.argv[1] == 'history':
     print(getHistory(12))
+elif sys.argv[1] == 'raw_history':
+    print(getRawHistory(12))
 elif sys.argv[1] == 'water':
     runtime = int(sys.argv[2])
     if getMoisture() >= 70:
@@ -16,4 +18,4 @@ elif sys.argv[1] == 'water':
         print('FAIL')
         sys.exit(0)
     pumpPulse(runtime)
-    print('Ok')
+    print('OK')
