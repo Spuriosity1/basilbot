@@ -27,11 +27,8 @@ if sys.argv[1] == 'moisture':
         print("ERROR: Could not establish Serial connection")
 elif sys.argv[1] == 'history':
     print(getHistory(12))
-elif sys.argv[1] == 'dump':
-    if sys.argc >= 2:
-        print(getHistory(sys.argv[2]))
-    else:
-        print(getHistory(12))
+elif sys.argv[1] == 'raw_history':
+    print(getRawHistory(12))
 elif sys.argv[1] == 'water':
     try:
         runtime = int(sys.argv[2])
