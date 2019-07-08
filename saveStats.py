@@ -4,6 +4,8 @@ import time
 import requests as req
 import csv
 
+# DEPRECEATED
+
 REQ = b'\x05'
 ACK = b'\x80'
 

@@ -16,7 +16,7 @@ SIPP='''
 
 import sys
 from libbasil_I2C import *
-from libbasil import getHistory, dumpHistory, convert_moisture_raw
+from libbasil import getHistory, dumpHistory
 import time
 from serial.serialutil import SerialException
 
@@ -52,7 +52,6 @@ elif sys.argv[1] == 'water':
 
     except SerialException:
         print("ERROR: Could not establish Serial connection")
-
 
 elif sys.argv[1] == 'dump':
     try:

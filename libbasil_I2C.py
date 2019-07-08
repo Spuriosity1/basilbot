@@ -2,9 +2,13 @@ import smbus
 import struct
 import time
 
-reg_write_dac = 0x40
+
 channel = 0x03
 
+
+def convert_moisture_raw(raw):
+    # very scientific
+    return 100 * raw / 500
 
 # Bus number is 1
 bus = smbus.SMBus(1)
