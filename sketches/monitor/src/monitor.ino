@@ -17,7 +17,6 @@ void motorPulse(byte power, unsigned int dlay){
     analogWrite(MOTORPWR,power);
     delay(dlay);
     analogWrite(MOTORPWR,0);
-    delay(1000);
 }
 
 void setup() {
@@ -42,7 +41,6 @@ void loop() {
     if (Serial.available()){
         byte b = Serial.read();
         byte c;
-
         N++;
         if (N >= BUFSIZE) N = 0;
         buffer[N] = b;
@@ -58,7 +56,6 @@ void loop() {
 
                 // Limit watering to 1 minute
                 time = time<60000 ? time : 60000;
-
 
                 Serial.print("Time: ");
                 Serial.println(time);

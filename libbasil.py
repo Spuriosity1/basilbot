@@ -1,6 +1,10 @@
-import serial
 import struct
 import csv
+import time
+import smbus
+
+
+PORT = '/dev/cu.usbmodem14201'
 
 def convert_moisture_raw(raw):
     return 100 * raw / 500
@@ -18,18 +22,25 @@ def sample_data(ser, N):
     return retval
 
 def getMoisture():
-    with serial.Serial(port='/dev/ttyACM0', dsrdtr=True,
-                        baudrate=9600) as ser:
+    with serial.Serial(port=PORT, baudrate=9600,timeout=2) as ser:
+        time.sleep(10)
         moisture = sample_data(ser, 5)[0]
+
     return moisture
 
 def pumpPulse(power):
-    with serial.Serial(port='/dev/ttyACM0', dsrdtr=True,
-                        baudrate=9600) as ser:
+    with serial.Serial(port=PORT, baudrate=9600) as ser:
         ser.write(b'S')
         ser.write(struct.pack('<B',255))
         ser.write(struct.pack('<H',1000*power))
         ser.write(b'\n')
+
+def ensureOff():
+    with serial.Serial(port=PORT, baudrate=9600) as ser:
+        ser.write(b'Y\n')
+        res = ser.readline().strip(b'\r\n')
+
+    return int(res)
 
 def getHistory(num):
     lines = []
