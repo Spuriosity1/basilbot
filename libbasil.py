@@ -42,3 +42,14 @@ def getHistory(num):
         msg += '| {} |     {:.1f}     |\n'.format(row[0].replace('T',' '), float(row[1])/5)
     msg += '+---------------------+--------------+'
     return msg
+
+def dumpHistory(num):
+    lines = []
+    with open('/home/pi/data/history.csv','r') as f:
+        reader = csv.reader(f,delimiter=',')
+        lines = [row for row in reader]
+
+    msg=''
+    for row in lines[-num:]:
+        msg += row
+    return msg
