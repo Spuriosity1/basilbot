@@ -1,0 +1,5 @@
+# Ignore compilation mess from avrdude
+**/.build
+log/*.log
+# ignores compiled python
+*.pyc
