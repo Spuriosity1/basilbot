@@ -27,11 +27,11 @@ def getMoisture():
 
     return moisture
 
-def pumpPulse(power):
+def pumpPulse(time):
     with serial.Serial(port=PORT, baudrate=9600) as ser:
         ser.write(b'S')
         ser.write(struct.pack('<B',255))
-        ser.write(struct.pack('<H',1000*power))
+        ser.write(struct.pack('<H',1024*time))
         ser.write(b'\n')
 
 def ensureOff():
