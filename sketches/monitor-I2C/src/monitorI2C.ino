@@ -1,6 +1,5 @@
 #include <Wire.h>
 
-#define DEBUG
 
 #ifdef DEBUG
 #warning "Debug is enabled!"
