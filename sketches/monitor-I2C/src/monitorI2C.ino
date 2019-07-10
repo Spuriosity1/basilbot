@@ -102,7 +102,7 @@ void requestEvent(){
     for (int i=2; i<BUFSIZE;i++){
         sendbuf[i]=0x00;
     }
-    Wire.write(moisture);
+    Wire.write(sendbuf);
 }
 
 void loop() {
