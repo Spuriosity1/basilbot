@@ -16,9 +16,9 @@
 
 #define CHANNEL 0x03
 
-int readMoisture(int power, unsigned int dlay){
+int readMoisture(byte power, unsigned int dlay){
     analogWrite(SOILPWR,power);
-    delay(dlay);
+    delay((long) dlay);
     int moisture = analogRead(A0);
     analogWrite(SOILPWR,0);
     return moisture;
@@ -26,7 +26,7 @@ int readMoisture(int power, unsigned int dlay){
 
 void motorPulse(byte power, unsigned int dlay){
     analogWrite(MOTORPWR,255-power);
-    delay(dlay);
+    delay((long) dlay);
     analogWrite(MOTORPWR,255);
     delay(1000);
 }
@@ -57,19 +57,20 @@ void receiveEvent(int nbytes){
   if (nbytes >= 4 && b == 'S'){
     // S for [S]oak
     // look I don't know why it's like this
-    unsigned char fast = msg[1];
+    byte fast = msg[1];
     unsigned int t = msg[2] + (unsigned int)msg[3]<<8;
 
     // Limit watering to 1 minute
     t = t<60000 ? t : 60000;
 
     motorPulse(fast,t);
-}
 #ifdef DEBUG
     Serial.print("Time: ");
     Serial.println(t);
-  else {
-      Serial.println("FAILED");
+#endif
+  } else {
+#ifdef DEBUG
+    Serial.println("FAILED");
   }
 #endif
 }
