@@ -61,6 +61,7 @@ void receiveEvent(int nbytes){
     Serial.print("Message:");
     for (int i=0;i<nbytes;i++){
         Serial.print(msg[i]);
+        Serial.print('\n');
     }
     Serial.println();
     #endif
