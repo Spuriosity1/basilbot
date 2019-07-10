@@ -16,17 +16,18 @@
 
 #define CHANNEL 0x03
 
-int readMoisture(byte power, unsigned int dlay){
+int readMoisture(byte power, int dlay){
     analogWrite(SOILPWR,power);
-    delay((long) dlay);
+    delay(dlay);
     int moisture = analogRead(A0);
     analogWrite(SOILPWR,0);
     return moisture;
 }
 
-void motorPulse(byte power, unsigned int dlay){
+void motorPulse(byte power, int dlay){
+    // Motor is active low
     analogWrite(MOTORPWR,255-power);
-    delay((long) dlay);
+    delay(dlay);
     analogWrite(MOTORPWR,255);
     delay(1000);
 }
@@ -49,30 +50,32 @@ void setup() {
 // ['S'][speed][time_LSB][time_HSB]
 
 void receiveEvent(int nbytes){
-  char msg[nbytes];
-  for (int i=0;i<nbytes;i++){
-    msg[i]=Wire.read();
-  }
-  char b=msg[0];
-  if (nbytes >= 4 && b == 'S'){
-    // S for [S]oak
-    // look I don't know why it's like this
-    byte fast = msg[1];
-    unsigned int t = msg[2] + (unsigned int)msg[3]<<8;
+    char msg[nbytes];
+    for (int i=0;i<nbytes;i++){
+        msg[i]=Wire.read();
+    }
+    char b=msg[0];
+    if (nbytes >= 4 && b == 'S'){
+        // S for [S]oak
+        // look I don't know why it's like this
+        byte fast = msg[1];
+        int t = msg[2] + (int)msg[3]<<8;
 
-    // Limit watering to 1 minute
-    t = t<60000 ? t : 60000;
+        // Limit watering to 1 minute
+        t = t > 0     ? t : 0;
+        t = t < 60000 ? t : 60000;
 
-    motorPulse(fast,t);
-#ifdef DEBUG
-    Serial.print("Time: ");
-    Serial.println(t);
-#endif
-  } else {
-#ifdef DEBUG
-    Serial.println("FAILED");
-  }
-#endif
+        motorPulse(fast,t);
+        #ifdef DEBUG
+        Serial.print("Time: ");
+        Serial.println(t);
+        #endif
+    } else {
+        #ifdef DEBUG
+        Serial.println("FAILED");
+        #endif
+    }
+
 }
 
 char sendbuf[BUFSIZE];
@@ -81,13 +84,13 @@ char sendbuf[BUFSIZE];
 // [soil_LSB][soil_MSB][0][0]
 
 void requestEvent(){
-  int moisture = readMoisture(255, 200);
-  sendbuf[0] = moisture&0x0f;
-  sendbuf[1] = moisture&0xf0;
-  for (int i=2; i<BUFSIZE;i++){
-    sendbuf[i]=0x00;
-}
-  Wire.write(moisture);
+    int moisture = readMoisture(255, 200);
+    sendbuf[0] = moisture&0x0f;
+    sendbuf[1] = moisture&0xf0;
+    for (int i=2; i<BUFSIZE;i++){
+        sendbuf[i]=0x00;
+    }
+    Wire.write(moisture);
 }
 
 void loop() {
