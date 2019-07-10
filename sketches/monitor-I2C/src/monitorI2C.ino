@@ -16,7 +16,7 @@
 
 #define CHANNEL 0x03
 
-int readMoisture(byte power, int dlay){
+int readMoisture(byte power, word dlay){
     analogWrite(SOILPWR,power);
     delay(dlay);
     int moisture = analogRead(A0);
@@ -24,7 +24,7 @@ int readMoisture(byte power, int dlay){
     return moisture;
 }
 
-void motorPulse(byte power, int dlay){
+void motorPulse(byte power, word dlay){
     // Motor is active low
     analogWrite(MOTORPWR,255-power);
     delay(dlay);
@@ -43,33 +43,46 @@ void setup() {
     Wire.onReceive(receiveEvent);
     Wire.onRequest(requestEvent);
     Wire.begin(CHANNEL);
+    #ifdef DEBUG
     Serial.begin(9600);
+    #endif
 }
 
 // BYTE STRUCTURE:
 // ['S'][speed][time_LSB][time_HSB]
 
 void receiveEvent(int nbytes){
-    char msg[nbytes];
+    byte msg[nbytes];
     for (int i=0;i<nbytes;i++){
         msg[i]=Wire.read();
     }
-    char b=msg[0];
+
+    #ifdef DEBUG
+    Serial.print("Message:");
+    for (int i=0;i<nbytes;i++){
+        Serial.print(msg[i]);
+    }
+    Serial.println();
+    #endif
+
+    byte b=msg[0];
     if (nbytes >= 4 && b == 'S'){
         // S for [S]oak
         // look I don't know why it's like this
         byte fast = msg[1];
-        int t = msg[2] + (int)msg[3]<<8;
+        word t = msg[2] + (word) msg[3] << 8;
 
-        // Limit watering to 1 minute
-        t = t > 0     ? t : 0;
-        t = t < 60000 ? t : 60000;
-
-        motorPulse(fast,t);
         #ifdef DEBUG
+        Serial.print("Message:")
         Serial.print("Time: ");
         Serial.println(t);
         #endif
+
+        // Limit watering to 1 minute
+        t = t < 60000 ? t : 60000;
+
+        motorPulse(fast,t);
+
     } else {
         #ifdef DEBUG
         Serial.println("FAILED");
