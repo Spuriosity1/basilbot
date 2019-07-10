@@ -71,8 +71,7 @@ void receiveEvent(int nbytes){
         // S for [S]oak
         // look I don't know why it's like this
         byte fast = msg[1];
-        word t = (word) msg[2] << 8;
-        t += msg[3];
+        word t = msg[2] + (word) msg[3] << 8;
 
         #ifdef DEBUG
         Serial.print("Time: ");
@@ -99,8 +98,8 @@ char sendbuf[BUFSIZE];
 
 void requestEvent(){
     int moisture = readMoisture(255, 200);
-    sendbuf[0] = moisture&0xf0;
-    sendbuf[1] = moisture&0x0f;
+    sendbuf[0] = moisture&0x0f;
+    sendbuf[1] = moisture&0xf0;
     for (int i=2; i<BUFSIZE;i++){
         sendbuf[i]=0x00;
     }

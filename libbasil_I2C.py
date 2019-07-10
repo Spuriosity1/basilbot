@@ -22,7 +22,7 @@ def water(speed, time):
 def moisture_read():
     # read a block of 4 bytes (offset 0)
     res = bus.read_i2c_block_data(CHANNEL, 0, 4)
-    return struct.unpack('>HBB',res)
+    return struct.unpack('<HBB',res)
 
 
 def sample_data(N):
