@@ -90,7 +90,7 @@ void receiveEvent(int nbytes){
 
 }
 
-char sendbuf[BUFSIZE];
+byte sendbuf[BUFSIZE];
 
 // BYTE STRUCTURE
 // [soil_LSB][soil_MSB][0][0]
@@ -102,7 +102,7 @@ void requestEvent(){
     for (int i=2; i<BUFSIZE;i++){
         sendbuf[i]=0x00;
     }
-    Wire.write(sendbuf);
+    Wire.write(sendbuf, 4);
 }
 
 void loop() {
