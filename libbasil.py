@@ -1,7 +1,6 @@
 import struct
 import csv
 import time
-import smbus2
 
 
 PORT = '/dev/cu.usbmodem14201'

@@ -1,4 +1,4 @@
-import smbus
+import smbus2
 import struct
 import time
 
@@ -11,7 +11,7 @@ def convert_moisture_raw(raw):
     return 100 * raw / 500
 
 # Bus number is 1
-bus = smbus.SMBus(1)
+bus = smbus2.SMBus(1)
 
 
 def water(speed, time):
