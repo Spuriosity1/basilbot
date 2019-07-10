@@ -1,5 +1,7 @@
 #include <Wire.h>
 
+#define DEBUG
+
 #ifdef DEBUG
 #warning "Debug is enabled!"
 #endif
@@ -62,10 +64,11 @@ void receiveEvent(int nbytes){
     t = t<60000 ? t : 60000;
 
     motorPulse(fast,t);
+}
 #ifdef DEBUG
     Serial.print("Time: ");
     Serial.println(t);
-  } else {
+  else {
       Serial.println("FAILED");
   }
 #endif
