@@ -73,7 +73,6 @@ void receiveEvent(int nbytes){
         word t = msg[2] + (word) msg[3] << 8;
 
         #ifdef DEBUG
-        Serial.print("Message:")
         Serial.print("Time: ");
         Serial.println(t);
         #endif
