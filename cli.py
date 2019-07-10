@@ -16,7 +16,7 @@ SIPP='''
 
 import sys
 from libbasil_I2C import *
-from libbasil import getHistory, dumpHistory
+from libbasil import getHistory, getRawHistory
 import time
 from serial.serialutil import SerialException
 
