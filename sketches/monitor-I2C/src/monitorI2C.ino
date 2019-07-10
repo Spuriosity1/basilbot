@@ -71,7 +71,7 @@ void receiveEvent(int nbytes){
         // S for [S]oak
         // look I don't know why it's like this
         byte fast = msg[1];
-        word t = (word) msg[2] << 8
+        word t = (word) msg[2] << 8;
         t += msg[3];
 
         #ifdef DEBUG
