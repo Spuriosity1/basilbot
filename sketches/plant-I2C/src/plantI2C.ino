@@ -99,7 +99,7 @@ void loop() {
                     word t = Wire.read();
                     t |= Wire.read() << 8;
                     int val = readMoisture(255,t);
-                    buffer[0] = (byte) (val <<2); // MAKE IT FIT IN ONE BYTE
+                    buffer[0] = (byte) (val >>2); // MAKE IT FIT IN ONE BYTE
                     // Everything else is fuckin' zero
                     for (size_t i = 1; i < BUFSIZE; i++) {
                         buffer[i] = 0x00;
