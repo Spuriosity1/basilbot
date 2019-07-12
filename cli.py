@@ -45,7 +45,6 @@ elif sys.argv[1] == 'water':
     try:
         pumpPulse(runtime)
         print(SIPP)
-        time.sleep(runtime+3)
 
     except OSError:
         print("ERROR: Could not establish I2C connection")
