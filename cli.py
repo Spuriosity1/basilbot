@@ -46,9 +46,6 @@ elif sys.argv[1] == 'water':
         pumpPulse(runtime)
         print(SIPP)
         time.sleep(runtime+3)
-        value = ensureOff()
-        if value < 100:
-            print('WARN: Pump pin reads %d, should be closer to 255' % value)
 
     except SerialException:
         print("ERROR: Could not establish Serial connection")
