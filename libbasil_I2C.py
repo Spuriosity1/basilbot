@@ -27,8 +27,7 @@ def moisture_read():
     time.sleep(0.5)
     # Hacky workaround for read_i2c_block_data being broken
     bus.write_byte(CHANNEL, ord('R'), 0x00)
-    res = bus.read_byte(CHANNEL)
-    return struct.unpack('<B',res)
+    return bus.read_byte(CHANNEL)
 
 
 def sample_data(N):
