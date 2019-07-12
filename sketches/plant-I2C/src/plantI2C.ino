@@ -24,7 +24,7 @@
 volatile byte state  = READY_STATE;
 volatile byte cmd_buffer[BUFSIZE];
 volatile byte n_cmd_bytes = 0;
-byte out_buffer[BUFSIZE];
+byte out_buffer;
 
 //////////////////////////////////////////////////////////////
 // ISR FUNCTIONS
@@ -51,7 +51,7 @@ void receiveEvent(int N){
 }
 
 void requestEvent(){
-    Wire.write(out_buffer, BUFSIZE);
+    Wire.write(out_buffer);
 }
 
 ///////////////////////////////////////////////////////////
@@ -110,11 +110,7 @@ void parse(){
                 byte fast = static_cmd[1];
                 word t = static_cmd[2] + (word) static_cmd[3] << 8;
                 int val = readMoisture(255,t);
-                out_buffer[0] = val & 0xFF;
-                out_buffer[1] = val >> 8;
-                for (size_t i = 2; i < BUFSIZE; i++) {
-                    out_buffer[i] = 0x00;
-                }
+                out_buffer = val >> 2;
             }
             break;
     }
