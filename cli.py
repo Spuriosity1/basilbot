@@ -23,8 +23,8 @@ from serial.serialutil import SerialException
 if sys.argv[1] == 'moisture':
     try:
         print(getMoisture())
-    except SerialException:
-        print("ERROR: Could not establish Serial connection")
+    except OSError:
+        print("ERROR: Could not establish I2C connection")
 elif sys.argv[1] == 'history':
     print(getHistory(12))
 elif sys.argv[1] == 'raw_history':
@@ -47,8 +47,8 @@ elif sys.argv[1] == 'water':
         print(SIPP)
         time.sleep(runtime+3)
 
-    except SerialException:
-        print("ERROR: Could not establish Serial connection")
+    except OSError:
+        print("ERROR: Could not establish I2C connection")
 
 elif sys.argv[1] == 'dump':
     try:
