@@ -1,10 +1,12 @@
+#!/usr/bin/python3
+
 import csv
 
 from libbasil_I2C import sample_data
 
 with open("../data/history.csv",'a') as f:
     writer = csv.writer(f)
-    writer.writerow(sample_data(args.N))
+    writer.writerow(sample_data(15))
 
 
 # a tiny tiny script that does not a lot
