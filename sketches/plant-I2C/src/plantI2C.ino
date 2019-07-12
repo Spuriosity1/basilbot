@@ -1,20 +1,19 @@
 #include <Wire.h>
 #include <util/atomic.h>
 
-#ifdef DEBUG
-#warning "Debug is enabled!"
-#endif
-
+// Hardware pins
 #define SOILPWR 11
 #define SOILSIG A0
 
 #define MOTORPWR 5
 #define MOTORDTEC A1
 
+
+
 // MUST FIT IN 1 BYTE
 #define BUFSIZE 16
 
-#define CHANNEL 0x03
+#define CHANNEL 0x08
 
 // FSM time
 #define IN_STATE 0xF0
@@ -24,7 +23,7 @@
 volatile byte state  = READY_STATE;
 volatile byte cmd_buffer[BUFSIZE];
 volatile byte n_cmd_bytes = 0;
-byte out_buffer[BUFSIZE];
+byte out_buffer;
 
 //////////////////////////////////////////////////////////////
 // ISR FUNCTIONS
@@ -74,16 +73,6 @@ void motorPulse(byte power, word dlay){
 
 
 
-
-
-
-
-
-// IN BYTE STRUCTURE:
-// ['S'][speed][time_LSB][time_HSB]
-
-// OUT BYTE STRUCTURE
-// [soil_LSB][soil_MSB][0][0]
 
 void parse(){
     byte static_cmd[BUFSIZE];

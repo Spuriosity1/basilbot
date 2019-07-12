@@ -3,7 +3,7 @@ import struct
 import time
 
 
-CHANNEL = 0x03
+CHANNEL = 0x08
 
 
 def convert_moisture_raw(raw):
@@ -24,8 +24,8 @@ def moisture_read():
     req_str += struct.pack('<H',128)
     bus.write_i2c_block_data(CHANNEL, ord('M'), req_str)
     time.sleep(0.5)
-    res = bus.read_i2c_block_data(CHANNEL, 0, 4)
-    return struct.unpack('<HBB',res)
+    res = bus.read_byte(CHANNEL, 0, 4)
+    return struct.unpack('<B',res)
 
 
 def sample_data(N):
