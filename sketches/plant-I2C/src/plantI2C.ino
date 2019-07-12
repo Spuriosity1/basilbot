@@ -11,6 +11,7 @@
 #define MOTORPWR 5
 #define MOTORDTEC A1
 
+// MUST FIT IN 1 BYTE
 #define BUFSIZE 16
 
 #define CHANNEL 0x03
@@ -22,7 +23,7 @@
 
 volatile byte state  = READY_STATE;
 volatile byte cmd_buffer[BUFSIZE];
-volatile int n_cmd_bytes = 0;
+volatile byte n_cmd_bytes = 0;
 byte out_buffer[BUFSIZE];
 
 //////////////////////////////////////////////////////////////
@@ -101,33 +102,37 @@ void setup() {
 // [soil_LSB][soil_MSB][0][0]
 
 void parse(){
+    byte static_cmd[BUFSIZE];
     ATOMIC_BLOCK(ATOMIC_RESTORESTATE){
-        switch (cmd_buffer[0]) {
-            case 'W':
-                // W for [W]ater
-                if (n_cmd_bytes >= 4){
-                    byte fast = cmd_buffer[1];
-                    word t = cmd_buffer[2] + (word) cmd_buffer[3] << 8;
-                    // Limit watering to 1 minute
-                    t = t < 60000 ? t : 60000;
-                    motorPulse(fast,t);
-                }
-                break;
-            case 'M':
-                // Pre-measurement call
-                if (n_cmd_bytes >= 4){
-                    byte fast = cmd_buffer[1];
-                    word t = cmd_buffer[2] + (word) cmd_buffer[3] << 8;
-                    int val = readMoisture(255,t);
-                    out_buffer[0] = val & 0xFF;
-                    out_buffer[1] = val >> 8;
-                    for (size_t i = 2; i < BUFSIZE; i++) {
-                        out_buffer[i] = 0x00;
-                    }
-                }
-                break;
-        }
+
+
     }
+    switch (cmd_buffer[0]) {
+        case 'W':
+            // W for [W]ater
+            if (n_cmd_bytes >= 4){
+                byte fast = cmd_buffer[1];
+                word t = cmd_buffer[2] + (word) cmd_buffer[3] << 8;
+                // Limit watering to 1 minute
+                t = t < 60000 ? t : 60000;
+                motorPulse(fast,t);
+            }
+            break;
+        case 'M':
+            // Pre-measurement call
+            if (n_cmd_bytes >= 4){
+                byte fast = cmd_buffer[1];
+                word t = cmd_buffer[2] + (word) cmd_buffer[3] << 8;
+                int val = readMoisture(255,t);
+                out_buffer[0] = val & 0xFF;
+                out_buffer[1] = val >> 8;
+                for (size_t i = 2; i < BUFSIZE; i++) {
+                    out_buffer[i] = 0x00;
+                }
+            }
+            break;
+    }
+
 }
 
 
