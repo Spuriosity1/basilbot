@@ -15,12 +15,15 @@ bus = smbus2.SMBus(1)
 
 
 def water(speed, time):
-    req_str  = struct.pack('>B',speed)
+    req_str  = struct.pack('<B',speed)
     req_str += struct.pack('<H',1024*time)
-    bus.write_i2c_block_data(CHANNEL, ord('S'), req_str)
+    bus.write_i2c_block_data(CHANNEL, ord('W'), req_str)
 
 def moisture_read():
-    # read a block of 4 bytes (offset 0)
+    req_str  = struct.pack('<B',255)
+    req_str += struct.pack('<H',128)
+    bus.write_i2c_block_data(CHANNEL, ord('M'), req_str)
+    time.sleep(0.5)
     res = bus.read_i2c_block_data(CHANNEL, 0, 4)
     return struct.unpack('<HBB',res)
 
