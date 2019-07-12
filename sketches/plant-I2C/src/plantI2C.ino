@@ -23,7 +23,7 @@
 volatile byte state  = READY_STATE;
 volatile byte cmd_buffer[BUFSIZE];
 volatile int n_cmd_bytes = 0;
-volatile byte out_buffer[BUFSIZE];
+byte out_buffer[BUFSIZE];
 
 //////////////////////////////////////////////////////////////
 // ISR FUNCTIONS
@@ -133,10 +133,14 @@ void parse(){
 
 
 void loop() {
+    byte
     if (state == IN_STATE) {
         parse();
         state = READY_STATE;
-    } else if (state == OUT_STATE) {
-        for 
     }
+    // else if (state == OUT_STATE) {
+    //     for (int i = 0; i < BUFSIZE; i++) {
+    //         Wire.write()
+    //     }
+    // }
 }
