@@ -15,10 +15,13 @@ def convert_moisture_raw(raw):
 bus = smbus2.SMBus(1)
 
 
-def pumpPulse(speed, time):
+def water(speed, time):
     req_str  = struct.pack('<B',speed)
     req_str += struct.pack('<H',1024*time)
     bus.write_i2c_block_data(CHANNEL, ord('W'), req_str)
+
+def pumpPulse(time):
+    water(255,time)
 
 def moisture_read():
     req_str  = struct.pack('<B',255)
