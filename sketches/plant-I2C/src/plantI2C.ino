@@ -24,7 +24,7 @@
 volatile byte state  = READY_STATE;
 volatile byte cmd_buffer[BUFSIZE];
 volatile byte n_cmd_bytes = 0;
-byte out_buffer[BUFSIZE];
+byte out_buffer;
 
 //////////////////////////////////////////////////////////////
 // ISR FUNCTIONS
@@ -72,23 +72,7 @@ void motorPulse(byte power, word dlay){
     delay(1000);
 }
 
-void setup() {
-    // put your setup code here, to run once:
-    pinMode(SOILSIG, INPUT);
-    pinMode(SOILPWR, OUTPUT);
-    pinMode(MOTORPWR, OUTPUT);
-    pinMode(MOTORDTEC, INPUT);
 
-    digitalWrite(MOTORPWR, HIGH);
-
-    Wire.onReceive(receiveEvent);
-    Wire.onRequest(requestEvent);
-    Wire.begin(CHANNEL);
-
-    #ifdef DEBUG
-    Serial.begin(9600);
-    #endif
-}
 
 
 
@@ -137,6 +121,23 @@ void parse(){
 
 }
 
+void setup() {
+    // put your setup code here, to run once:
+    pinMode(SOILSIG, INPUT);
+    pinMode(SOILPWR, OUTPUT);
+    pinMode(MOTORPWR, OUTPUT);
+    pinMode(MOTORDTEC, INPUT);
+
+    digitalWrite(MOTORPWR, HIGH);
+
+    Wire.begin(CHANNEL);
+    Wire.onReceive(receiveEvent);
+    Wire.onRequest(requestEvent);
+
+    #ifdef DEBUG
+    Serial.begin(9600);
+    #endif
+}
 
 
 void loop() {
