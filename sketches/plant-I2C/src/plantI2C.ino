@@ -24,7 +24,7 @@
 volatile byte state  = READY_STATE;
 volatile byte cmd_buffer[BUFSIZE];
 volatile byte n_cmd_bytes = 0;
-byte out_buffer;
+byte out_buffer[BUFSIZE];
 
 //////////////////////////////////////////////////////////////
 // ISR FUNCTIONS
