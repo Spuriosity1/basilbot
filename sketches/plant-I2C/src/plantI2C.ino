@@ -138,7 +138,6 @@ void parse(){
 
 
 void loop() {
-    byte
     if (state == IN_STATE) {
         parse();
         state = READY_STATE;
