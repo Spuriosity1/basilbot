@@ -9,21 +9,20 @@
 #define MOTORDTEC A1
 
 
-
-// MUST FIT IN 1 BYTE
 #define BUFSIZE 16
 
 #define CHANNEL 0x08
 
 // FSM time
-#define IN_STATE 0xF0
-#define READY_STATE 0x00
+#define IN_STATE 0xFF // There is an unprocessed command loaded into the buffer
+#define READY_STATE 0x00 // Prepared to accept instructions
 
 
-volatile byte state  = READY_STATE;
-volatile byte cmd_buffer[BUFSIZE];
-volatile byte n_cmd_bytes = 0;
-byte out_buffer;
+volatile byte state = READY_STATE;
+volatile byte nbytes = 0;
+volatile byte buffer[BUFSIZE];
+// Index to map particular read register
+volatile byte idx = 0;
 
 //////////////////////////////////////////////////////////////
 // ISR FUNCTIONS
@@ -31,26 +30,13 @@ byte out_buffer;
 
 void receiveEvent(int N){
     if (state == READY_STATE){
-        n_cmd_bytes = (N < BUFSIZE) ? N : BUFSIZE;
-        for (int i = 0; i < N; i++) {
-            if (i < BUFSIZE) {
-                cmd_buffer[i] = Wire.read();
-            } else {
-                // Ignore any extra bytes
-                Wire.read();
-            }
-        }
+        nbytes = N;
         state = IN_STATE;
-    } else {
-        for (int i = 0; i < N; i++) {
-                // Ignore any extra bytes
-                Wire.read();
-        }
     }
 }
 
 void requestEvent(){
-    Wire.write(out_buffer, BUFSIZE);
+    Wire.write();
 }
 
 ///////////////////////////////////////////////////////////
@@ -73,43 +59,6 @@ void motorPulse(byte power, word dlay){
 
 
 
-
-void parse(){
-    byte static_cmd[BUFSIZE];
-    byte nbytes = n_cmd_bytes;
-    ATOMIC_BLOCK(ATOMIC_RESTORESTATE){
-        for (size_t i = 0; i < BUFSIZE; i++) {
-            static_cmd[i] = cmd_buffer[i];
-        }
-    }
-    switch (static_cmd[0]) {
-        case 'W':
-            // W for [W]ater
-            if (nbytes >= 4){
-                byte fast = static_cmd[1];
-                word t = static_cmd[2] + (word) static_cmd[3] << 8;
-                // Limit watering to 1 minute
-                t = t < 60000 ? t : 60000;
-                motorPulse(fast,t);
-            }
-            break;
-        case 'M':
-            // Pre-measurement call
-            if (nbytes >= 4){
-                byte fast = static_cmd[1];
-                word t = static_cmd[2] + (word) static_cmd[3] << 8;
-                int val = readMoisture(255,t);
-                out_buffer[0] = val & 0xFF;
-                out_buffer[1] = val >> 8;
-                for (size_t i = 2; i < BUFSIZE; i++) {
-                    out_buffer[i] = 0x00;
-                }
-            }
-            break;
-    }
-
-}
-
 void setup() {
     // put your setup code here, to run once:
     pinMode(SOILSIG, INPUT);
@@ -131,12 +80,42 @@ void setup() {
 
 void loop() {
     if (state == IN_STATE) {
-        parse();
+        switch (Wire.read()) {
+            case 'W':
+                // W for [W]ater
+                if (nbytes >= 4){
+                    byte fast = Wire.read();
+                    word t = Wire.read();
+                    t |= Wire.read() << 8;
+                    // Limit watering to 1 minute
+                    t = t < 60000 ? t : 60000;
+                    motorPulse(fast,t);
+                }
+                break;
+            case 'M':
+                // Pre-measurement call
+                if (nbytes >= 4){
+                    byte fast = Wire.read();
+                    word t = Wire.read();
+                    t |= Wire.read() << 8;
+                    int val = readMoisture(255,t);
+                    buffer[0] = (byte) val <<2; // MAKE IT FIT IN ONE BYTE
+                    // Everything else is fuckin' zero
+                    for (size_t i = 1; i < BUFSIZE; i++) {
+                        buffer[i] = 0x00;
+                    }
+                }
+                break;
+            case 'R':
+                // Read call
+                if (nbytes >= 2){
+                    idx = Wire.read();
+                }
+        }
+        // Flush the buffer
+        while (Wire.available()) {
+            Wire.read();
+        }
         state = READY_STATE;
     }
-    // else if (state == OUT_STATE) {
-    //     for (int i = 0; i < BUFSIZE; i++) {
-    //         Wire.write()
-    //     }
-    // }
 }
