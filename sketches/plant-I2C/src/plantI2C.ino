@@ -36,7 +36,7 @@ void receiveEvent(int N){
 }
 
 void requestEvent(){
-    Wire.write();
+    Wire.write(buffer[idx]);
 }
 
 ///////////////////////////////////////////////////////////
