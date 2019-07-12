@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import csv
+import time
 
 from libbasil_I2C import sample_data
 
