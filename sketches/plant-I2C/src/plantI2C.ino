@@ -86,7 +86,7 @@ void loop() {
                 if (nbytes >= 4){
                     byte fast = Wire.read();
                     word t = Wire.read();
-                    t |= Wire.read() << 8;
+                    t += (word) Wire.read() << 8;
                     // Limit watering to 1 minute
                     t = t < 60000 ? t : 60000;
                     motorPulse(fast,t);
