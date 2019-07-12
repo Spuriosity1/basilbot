@@ -103,16 +103,18 @@ void setup() {
 
 void parse(){
     byte static_cmd[BUFSIZE];
+    byte nbytes = n_cmd_bytes;
     ATOMIC_BLOCK(ATOMIC_RESTORESTATE){
-
-
+        for (size_t i = 0; i < BUFSIZE; i++) {
+            static_cmd[i] = cmd_buffer[i];
+        }
     }
-    switch (cmd_buffer[0]) {
+    switch (static_cmd[0]) {
         case 'W':
             // W for [W]ater
-            if (n_cmd_bytes >= 4){
-                byte fast = cmd_buffer[1];
-                word t = cmd_buffer[2] + (word) cmd_buffer[3] << 8;
+            if (nbytes >= 4){
+                byte fast = static_cmd[1];
+                word t = static_cmd[2] + (word) static_cmd[3] << 8;
                 // Limit watering to 1 minute
                 t = t < 60000 ? t : 60000;
                 motorPulse(fast,t);
@@ -120,9 +122,9 @@ void parse(){
             break;
         case 'M':
             // Pre-measurement call
-            if (n_cmd_bytes >= 4){
-                byte fast = cmd_buffer[1];
-                word t = cmd_buffer[2] + (word) cmd_buffer[3] << 8;
+            if (nbytes >= 4){
+                byte fast = static_cmd[1];
+                word t = static_cmd[2] + (word) static_cmd[3] << 8;
                 int val = readMoisture(255,t);
                 out_buffer[0] = val & 0xFF;
                 out_buffer[1] = val >> 8;
