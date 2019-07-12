@@ -24,7 +24,7 @@ def moisture_read():
     req_str  = struct.pack('<B',255)
     req_str += struct.pack('<H',128)
     bus.write_i2c_block_data(CHANNEL, ord('M'), req_str)
-    time.sleep(0.5)
+    time.sleep(0.2)
     # Hacky workaround for read_i2c_block_data being broken
     bus.write_byte(CHANNEL, ord('R'), 0x00)
     return bus.read_byte(CHANNEL)
@@ -39,4 +39,4 @@ def sample_data(N):
     return convert_moisture_raw(sum(data)/N)
 
 def getMoisture():
-    return sample_data(15);
+    return sample_data(5);
