@@ -97,7 +97,7 @@ void loop() {
                 if (nbytes >= 4){
                     byte fast = Wire.read();
                     word t = Wire.read();
-                    t |= Wire.read() << 8;
+                    t += (word) Wire.read() << 8;
                     int val = readMoisture(255,t);
                     buffer[0] = (byte) (val >>2); // MAKE IT FIT IN ONE BYTE
                     // Everything else is fuckin' zero
