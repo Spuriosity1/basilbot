@@ -49,7 +49,7 @@ def getHistory(num):
 
     msg = '+---------------------+--------------+\n|         Date        | moisture (%) |\n+---------------------+--------------+\n'
     for row in lines[-num:]:
-        msg += '| {} |     {:.1f}     |\n'.format(row[0].replace('T',' '), float(row[1])/5)
+        msg += '| {} |     {:.1f}     |\n'.format(row[0].replace('T',' '), float(row[1]))
     msg += '+---------------------+--------------+'
     return msg
 
@@ -59,5 +59,5 @@ def getRawHistory(num):
         reader = csv.reader(f,delimiter=',')
         lines = [row for row in reader]
     for row in lines[-num:]:
-        msg += '{},{:.1f}\n'.format(row[0].replace('T',' '), float(row[1])/5)
+        msg += '{},{:.1f}\n'.format(row[0].replace('T',' '), float(row[1]))
     return msg
