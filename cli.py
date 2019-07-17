@@ -28,12 +28,12 @@ elif sys.argv[1] == 'history':
     if sys.argc < 3:
         print(getHistory(12))
     else:
-        print(getHistory(sys.argv[2]))
+        print(getHistory(int(sys.argv[2])))
 elif sys.argv[1] == 'raw_history':
     if sys.argc < 3:
         print(getRawHistory(12))
     else:
-        print(getRawHistory(sys.argv[2]))
+        print(getRawHistory(int(sys.argv[2])))
 elif sys.argv[1] == 'water':
     try:
         runtime = int(sys.argv[2])
