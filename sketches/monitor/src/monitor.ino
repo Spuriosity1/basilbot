@@ -5,7 +5,7 @@
 
 #define BUFSIZE 16
 
-int readMoisture(int power, int dlay){
+int readMoisture(int power, unsigned int dlay){
     analogWrite(SOILPWR,power);
     delay(dlay);
     int moisture = analogRead(A0);
@@ -13,7 +13,7 @@ int readMoisture(int power, int dlay){
     return moisture;
 }
 
-void motorPulse(byte power, int dlay){
+void motorPulse(byte power, unsigned int dlay){
     analogWrite(MOTORPWR,power);
     delay(dlay);
     analogWrite(MOTORPWR,0);
@@ -37,11 +37,10 @@ byte speed;
 
 void loop() {
     // put your main code here, to run repeatedly:
-    int time=0;
+    unsigned int time=0;
     if (Serial.available()){
         byte b = Serial.read();
         byte c;
-
         N++;
         if (N >= BUFSIZE) N = 0;
         buffer[N] = b;
@@ -53,7 +52,7 @@ void loop() {
             } else if (c == 'S'){
                 speed = buffer[1];
                 time += buffer[2];
-                time += ((int)buffer[3])<<8;
+                time += ((unsigned int)buffer[3])<<8;
 
                 // Limit watering to 1 minute
                 time = time<60000 ? time : 60000;

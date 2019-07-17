@@ -1,0 +1,6 @@
+# Ignore compilation mess from avrdude
+**/.build
+log
+# ignores compiled python
+*.pyc
+.DS_Store
