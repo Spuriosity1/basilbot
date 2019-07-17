@@ -25,12 +25,12 @@ if sys.argv[1] == 'moisture':
     except OSError:
         print("ERROR: Could not establish I2C connection")
 elif sys.argv[1] == 'history':
-    if sys.argc < 3:
+    if len(sys.argv) < 3:
         print(getHistory(12))
     else:
         print(getHistory(int(sys.argv[2])))
 elif sys.argv[1] == 'raw_history':
-    if sys.argc < 3:
+    if len(sys.argv) < 3:
         print(getRawHistory(12))
     else:
         print(getRawHistory(int(sys.argv[2])))
