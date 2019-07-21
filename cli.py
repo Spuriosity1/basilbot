@@ -4,10 +4,10 @@ SIPP='''
 ```
  _____ _
 /  ___(_)
-\ `--. _ _ __  _ __
+\\ `--. _ _ __  _ __
  `--. \\ | '_ \\| '_ \\
-/\__/ / | |_) | |_) |
-\____/|_| .__/| .__/
+/\\__/ / | |_) | |_) |
+\\____/|_| .__/| .__/
         | |   | |
         |_|   |_|
 ```
@@ -15,7 +15,7 @@ SIPP='''
 
 import sys
 from libbasil_I2C import *
-from libbasil import getHistory, getRawHistory
+from libbasil_history import *
 import time
 from serial.serialutil import SerialException
 
