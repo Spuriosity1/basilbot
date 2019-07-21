@@ -45,6 +45,7 @@ elif sys.argv[1] == 'water':
         sys.exit(0)
     if getMoisture() >= 70:
         print('Already over 70% moist')
+        print('Also, <@167249375775555584>: Please get your airbags checked.')
         sys.exit(0)
     try:
         pumpPulse(runtime)
