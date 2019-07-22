@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+import sys
+from libbasil_I2C import *
+from libbasil_history import *
 
 SIPP='''
 ```
@@ -13,11 +16,8 @@ SIPP='''
 ```
 '''
 
-import sys
-from libbasil_I2C import *
-from libbasil_history import *
-import time
-from serial.serialutil import SerialException
+MAX_MOISTURE = 80
+
 
 if sys.argv[1] == 'moisture':
     try:
@@ -43,8 +43,8 @@ elif sys.argv[1] == 'water':
     if runtime <= 0 or runtime > 60:
         print('ERROR: time out of range [0, 60]')
         sys.exit(0)
-    if getMoisture() >= 70:
-        print('Already over 70% moist')
+    if getMoisture() >= MAX_MOISTURE:
+        print('Already over {}% moist'.format(MAX_MOISTURE))
         print('Also, <@167249375775555584>: Please get your airbags checked.')
         sys.exit(0)
     try:

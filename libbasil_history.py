@@ -1,6 +1,4 @@
-import struct
 import csv
-import time
 
 
 PORT = '/dev/cu.usbmodem14201'

@@ -4,7 +4,7 @@ import time
 
 
 CHANNEL = 0x08
-
+CURSED = "I'm really, really thirsty... ({:.2f}) Can one of you give me a some bath water?"
 
 def convert_moisture_raw(raw):
     # very scientific
@@ -42,4 +42,8 @@ def sample_data(N):
     return convert_moisture_raw(sum(data)/N)
 
 def getMoisture():
-    return sample_data(5);
+    m = sample_data(5)
+    if m > 60:
+        return m
+    else:
+        return CURSED.format(m)
