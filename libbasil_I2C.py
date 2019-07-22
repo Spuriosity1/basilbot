@@ -4,7 +4,7 @@ import time
 
 
 CHANNEL = 0x08
-CURSED = "I'm really, really thirsty... ({:.2f}) Can one of you give me a some bath water?"
+CURSED = "I'm really, really thirsty... ({:.2f}) Can one of you give me some bath water? :tongue: :sweat_drops: :sweat_drops:"
 
 def convert_moisture_raw(raw):
     # very scientific
