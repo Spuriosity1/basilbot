@@ -1,33 +1,9 @@
 #!/usr/bin/python3
-
-import csv
-import json
-import requests
-from time import strftime
-from sys import exit
-
 from libbasil_I2C import water, sample_data
-
-CONFIG_PATH = '../basilbot_config.json'
-
-# the default setup.
-cfg = json.loads('''{
-    "auto_measure": {
-        "active": true,
-        "num_samples": 10
-    },
-    "auto_water": {
-        "active": false,
-        "thresholds": {
-            "high": 85,
-            "target": 75,
-            "low": 60,
-            "critical": 40
-        }
-    },
-    "webhooks": []
-}
-''')
+from libbasil_history import post_webhook, setHistory
+from config import config as cfg
+import requests
+import json
 
 def post_webhook(url, msg):
     data = {}
@@ -47,19 +23,9 @@ def post_discord(msg):
     for url in cfg['webhooks']:
         post_webhook(url, msg)
 
-try:
-    with open(CONFIG_PATH,'r') as f:
-        cfg = json.load(f)
-        if not cfg['auto_measure']['active']:
-            exit(0)
-except FileNotFoundError:
-    print('No config file found at %s. Using defaults...' % CONFIG_PATH)
-
 moisture = sample_data(cfg['auto_measure']['num_samples'])
 
-with open("../data/history.csv",'a') as f:
-    writer = csv.writer(f)
-    writer.writerow([strftime('%Y-%m-%dT%H:%M:%S'), moisture])
+setHistory(moisture)
 
 if cfg['auto_water']['active']:
     thresh = cfg['auto_water']['thresholds']
