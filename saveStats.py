@@ -50,7 +50,7 @@ def post_discord(msg):
 try:
     with open(CONFIG_PATH,'r') as f:
         cfg = json.load(f)
-        if !cfg['auto_measure']['active']:
+        if not cfg['auto_measure']['active']:
             exit(0)
 except FileNotFoundError:
     print('No config file found at %s. Using defaults...' % CONFIG_PATH)
