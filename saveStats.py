@@ -69,7 +69,7 @@ if cfg['auto_water']['active']:
     elif moisture < thresh['low']:
         post_discord('Automatically watering for 60s. Last recorded moisture: {:.2f}%'.format(moisture))
         water(255, 60)
-    eilf moisture < thresh['target']:
+    elif moisture < thresh['target']:
         post_discord('Automatically watering for 10s. Last recorded moisture: {:.2f}%'.format(moisture))
         water(255, 20)
     elif moisture > thresh['high']:
