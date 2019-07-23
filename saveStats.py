@@ -6,7 +6,7 @@ import requests
 from time import strftime
 from sys import exit
 
-from libbasil_I2C import getMoisture, water
+from libbasil_I2C import water, sample_data
 
 CONFIG_PATH = '../basilbot_config.json'
 
