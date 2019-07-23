@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 from libbasil_I2C import water, sample_data
-from libbasil_history import post_webhook, setHistory
+from libbasil_history import setHistory
 from config import config as cfg
 import requests
 import json
