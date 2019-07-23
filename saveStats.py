@@ -12,20 +12,20 @@ CONFIG_PATH = '../basilbot_config.json'
 
 # the default setup.
 cfg = json.loads('''{
-    auto_measure: {
-        active: true,
-        num_samples: 10
+    "auto_measure": {
+        "active": true,
+        "num_samples": 10
     },
-    auto_water: {
-        active: false,
-        thresholds: {
-            high: 85,
-            target: 75,
-            low: 60,
-            critical: 40
+    "auto_water": {
+        "active": false,
+        "thresholds": {
+            "high": 85,
+            "target": 75,
+            "low": 60,
+            "critical": 40
         }
     },
-    webhooks: []
+    "webhooks": []
 }
 ''')
 
