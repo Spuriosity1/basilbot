@@ -40,16 +40,16 @@ def ask_num(msg, dflt=0,typ=int):
 
 def generate():
     print('Generating new config file... (Ctrl-D to exit)')
-    print('Automatic measurement')
+    # Automatic measurement
     config['auto_measure'] = {}
     config['auto_measure']['active'] = ask_bool('Enable automatic (hourly) moisture logging?')
     config['auto_measure']['num_samples'] = ask_num('Enter number of readings to take in each hourly measurement',10)
 
-    print('Automatic watering')
+    # Automatic watering
     config['auto_water']={}
     config['auto_water']['active'] = ask_bool('Enable automatic (hourly) watering?', False)
     t = ask_num('Enter target moisture percentage', 75,float)
-    # if the user really feels strongly about these, they can change them their damn self
+    # if the user really feels strongly about these, they can change them their damn self in the JSON
     config['auto_water']['thresholds'] = {"high": t+10,"target": t,"low": t-15,"critical": t-30}
     config['webhooks']=[input('Enter a webhook for reminders to be sent to: ')]
     with open(CONFIG_PATH,'w') as f:
