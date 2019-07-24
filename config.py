@@ -3,8 +3,8 @@ import sys
 import os.path
 import os
 
-CONFIG_PATH = '../basilbot_config.json'
-DEFAULT_PATH = 'template.basilbot_config.json'
+CONFIG_PATH = '/home/pi/basilbot_config.json'
+DEFAULT_PATH = '/home/pi/template.basilbot_config.json'
 
 config = {}
 
