@@ -4,8 +4,7 @@ import time
 
 
 CHANNEL = 0x08
-CURSED = "I'm really, really thirsty... ({:.2f}%) "
-CURSED += "Can one of you give me some bath water? :tongue: :sweat_drops: :sweat_drops:"
+LOW_MOSTURE = "リリちゃん says: 'I'm really thirsty... Can one of you give me some bath water?' :tongue: :sweat_drops: :sweat_drops:"
 
 def convert_moisture_raw(raw):
     # very scientific
@@ -43,8 +42,4 @@ def sample_data(N):
     return convert_moisture_raw(sum(data)/N)
 
 def getMoisture():
-    m = sample_data(5)
-    if m > 60:
-        return m
-    else:
-        return CURSED.format(m)
+    return sample_data(5)

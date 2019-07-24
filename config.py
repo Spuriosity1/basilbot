@@ -61,3 +61,18 @@ def generate():
 def save():
     with open(CONFIG_PATH,'w') as f:
         json.dump(config, f)
+
+def traverse():
+    return(r_traverse(config)+'\n')
+
+def r_traverse(x, depth=0):
+    s = ''
+    if type(x) is dict:
+        for entry in x:
+            s += '\n'+'  '*depth + entry + ': ' + r_traverse(x[entry], depth + 1)
+    elif type(x) is list:
+        for entry in x:
+            s += '\n'+'  '*depth + r_traverse(entry, depth + 1)
+    else:
+        return str(x)
+    return s

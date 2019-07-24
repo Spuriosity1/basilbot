@@ -22,7 +22,10 @@ MAX_MOISTURE = 80
 
 if sys.argv[1] == 'moisture':
     try:
-        print(getMoisture())
+        moisture = getMoisture()
+        print(moisture)
+        if moisture < 60:
+            print(LOW_MOISTURE)
     except OSError:
         print("ERROR: Could not establish I2C connection")
 elif sys.argv[1] == 'history':
@@ -59,8 +62,14 @@ elif sys.argv[1] == 'dump':
     except ValueError:
         print('Invalid number specification')
 elif sys.argv[1] == 'auto':
-    if len(sys.argv) >= 3:
-        config.config['auto_water']['active'] = !config.config['auto_water']['active']
+    setting = False
+    if len(sys.argv) == 2:
+        setting = not config.config['auto_water']['active']
     else:
-        config.config['auto_water']['active'] = bool(sys.argv[2])
+        setting = bool(sys.argv[2])
+    config.config['auto_water']['active'] = setting
+    print(("A" if setting else "Dea")+"ctivating automatic watering")
     config.save()
+
+elif sys.argv[1] == 'config':
+    print(config.traverse())
