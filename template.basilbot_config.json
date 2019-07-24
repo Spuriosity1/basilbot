@@ -1,0 +1,19 @@
+{
+    "auto_measure": {
+        "active": true,
+        "num_samples": 10
+    },
+    "auto_water": {
+        "active": false,
+        "thresholds": {
+            "high": 85,
+            "target": 75,
+            "low": 60,
+            "critical": 40
+        }
+    },
+    "messages":{
+        "low_moisture": "リリちゃん says: 'I'm really thirsty... Can one of you give me some bath water?' :tongue: :sweat_drops: :sweat_drops:"
+    },
+    "webhooks": [""]
+}
