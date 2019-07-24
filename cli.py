@@ -2,6 +2,7 @@
 import sys
 from libbasil_I2C import *
 from libbasil_history import *
+import config
 
 SIPP='''
 ```
@@ -52,9 +53,14 @@ elif sys.argv[1] == 'water':
         print('OK')
     except OSError:
         print("ERROR: Could not establish I2C connection")
-
 elif sys.argv[1] == 'dump':
     try:
         print(getHistory(int(sys.argv[2])))
     except ValueError:
         print('Invalid number specification')
+elif sys.argv[1] == 'auto':
+    if len(sys.argv) >= 3:
+        config.config['auto_water']['active'] = !config.config['auto_water']['active']
+    else:
+        config.config['auto_water']['active'] = bool(sys.argv[2])
+    config.save()

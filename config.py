@@ -1,5 +1,7 @@
 import json
 import sys
+import os.path
+import os
 
 CONFIG_PATH = '../basilbot_config.json'
 DEFAULT_PATH = 'template.basilbot_config.json'
@@ -12,16 +14,17 @@ try:
         if not config['auto_measure']['active']:
             sys.exit(0)
 except FileNotFoundError:
-    print('No config file found at %s. Using defaults...' % CONFIG_PATH)
+    print('No config file found at %s. Using defaults file at %s...' % (CONFIG_PATH, DEFAULT_PATH))
     try:
-        with open(CONFIG_PATH,'r') as f:
+        with open(DEFAULT_PATH,'r') as f:
             config = json.load(f)
             if not cfg['auto_measure']['active']:
                 sys.exit(0)
     except FileNotFoundError:
         print('No defualt config file found at %s either. Giving up.' % DEFAULT_PATH)
+        sys.exit(1)
 
-def ask_bool(msg,dflt=True):
+def ask_bool(msg, dflt=True):
     msg += ' (y) :' if dflt else ' (n) :'
     res = input(msg)
     return True if len(res) == 0 or res.lower()[0]=='y' else False
@@ -52,6 +55,9 @@ def generate():
     # if the user really feels strongly about these, they can change them their damn self in the JSON
     config['auto_water']['thresholds'] = {"high": t+10,"target": t,"low": t-15,"critical": t-30}
     config['webhooks']=[input('Enter a webhook for reminders to be sent to: ')]
+    save()
+    print('Done!')
+
+def save():
     with open(CONFIG_PATH,'w') as f:
         json.dump(config, f)
-    print('Done!')
