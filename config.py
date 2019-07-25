@@ -4,7 +4,7 @@ import os.path
 import os
 
 CONFIG_PATH = '/home/pi/basilbot_config.json'
-DEFAULT_PATH = '/home/pi/template.basilbot_config.json'
+DEFAULT_PATH = '/home/pi/basilbot/template.basilbot_config.json'
 
 config = {}
 
