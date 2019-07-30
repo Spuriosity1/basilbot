@@ -63,8 +63,8 @@ elif sys.argv[1] == 'auto':
     setting = False
     if len(sys.argv) == 2:
         setting = not aw['active']
-    else:
-        setting = bool(sys.argv[2])
+    elif sys.argv[2].lower()[0] in ['y','t','s']:
+        setting = True
     aw['active'] = setting
     print(("A" if setting else "Dea")+"ctivating automatic watering")
     config.save()

@@ -1,13 +1,13 @@
 {
     "auto_measure": {
         "active": true,
-        "num_samples": 10,
-        "low_moisture": 60
+        "num_samples": 10
     },
     "man_measure":{
         "messages":{
             "low_moisture":  "The moisture level is too low."
         },
+        "low_moisture": 60,
         "num_samples": 5
     },
     "auto_water": {
