@@ -21,11 +21,12 @@ MAX_MOISTURE = 80
 
 
 if sys.argv[1] == 'moisture':
+    mm = config.config['man_measure']
     try:
-        moisture = getMoisture()
+        moisture = sample_data(mm['num_samples'])
         print(moisture)
-        if moisture < 60:
-            print(config.config['messages']['low_moisture'])
+        if moisture < mm['low_moisture']:
+            print(mm['messages']['low_moisture'])
     except OSError:
         print("ERROR: Could not establish I2C connection")
 elif sys.argv[1] == 'history':
@@ -39,17 +40,18 @@ elif sys.argv[1] == 'raw_history':
     else:
         print(getRawHistory(int(sys.argv[2])))
 elif sys.argv[1] == 'water':
+    mw = config.config['man_water']
     try:
         runtime = int(sys.argv[2])
     except ValueError:
         print('Invalid number specification')
         sys.exit(0)
-    if runtime <= 0 or runtime > 60:
-        print('ERROR: time out of range [0, 60]')
+    if runtime <= 0 or runtime > mw['max_runtime']:
+        print('ERROR: time out of range [0, %d]' % mw['max_runtime'])
         sys.exit(0)
-    if getMoisture() >= MAX_MOISTURE:
-        print('Already over {}% moist'.format(MAX_MOISTURE))
-        print('Also, <@167249375775555584>: Please get your airbags checked.')
+    if sample_data(mw['num_samples']) >= mw['max_moisture']:
+        print('Soil is over {}% moist'.format(mw['max_moisture']))
+        print(mw['messages']['max_moisture'])
         sys.exit(0)
     try:
         pumpPulse(runtime)
@@ -57,12 +59,13 @@ elif sys.argv[1] == 'water':
     except OSError:
         print("ERROR: Could not establish I2C connection")
 elif sys.argv[1] == 'auto':
+    aw = config.config['auto_water']
     setting = False
     if len(sys.argv) == 2:
-        setting = not config.config['auto_water']['active']
+        setting = not aw['active']
     else:
         setting = bool(sys.argv[2])
-    config.config['auto_water']['active'] = setting
+    aw['active'] = setting
     print(("A" if setting else "Dea")+"ctivating automatic watering")
     config.save()
 elif sys.argv[1] == 'config':

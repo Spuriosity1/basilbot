@@ -1,7 +1,14 @@
 {
     "auto_measure": {
         "active": true,
-        "num_samples": 10
+        "num_samples": 10,
+        "low_moisture": 60
+    },
+    "man_measure":{
+        "messages":{
+            "low_moisture":  "The moisture level is too low."
+        },
+        "num_samples": 5
     },
     "auto_water": {
         "active": false,
@@ -10,10 +17,18 @@
             "target": 75,
             "low": 60,
             "critical": 40
+        },
+        "messages":{
+
         }
     },
-    "messages":{
-        "low_moisture": "The moisture level is too low."
+    "man_water":{
+        "max_runtime": 60,
+        "max_moisture": 80,
+        "num_samples": 5,
+        "messages":{
+            "max_moisture": "You sould not water the plant any more."
+        }
     },
     "webhooks": [""]
 }

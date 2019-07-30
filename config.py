@@ -41,8 +41,13 @@ def ask_num(msg, dflt=0,typ=int):
             print("Invalid number specification.")
     return retval
 
+def dinput(msg, dflt):
+    ans = input(msg)
+    return ans if len(ans)>0 else dflt
+
 def generate():
     print('Generating new config file... (Ctrl-D to exit)')
+
     # Automatic measurement
     config['auto_measure'] = {}
     config['auto_measure']['active'] = ask_bool('Enable automatic (hourly) moisture logging?')
@@ -51,10 +56,17 @@ def generate():
     # Automatic watering
     config['auto_water']={}
     config['auto_water']['active'] = ask_bool('Enable automatic (hourly) watering?', False)
-    t = ask_num('Enter target moisture percentage', 75,float)
+    t = ask_num('Enter target moisture percentage', 70, float)
     # if the user really feels strongly about these, they can change them their damn self in the JSON
     config['auto_water']['thresholds'] = {"high": t+10,"target": t,"low": t-15,"critical": t-30}
     config['webhooks']=[input('Enter a webhook for reminders to be sent to: ')]
+
+    config['man_water']={}
+    config['man_water']['max_moisture'] = t+10
+    config['man_water']['max_runtime'] = 60
+
+    config['messages'] = {}
+    config['messages']['low_moisture'] = "Soil's moisture content is low."
     save()
     print('Done!')
 

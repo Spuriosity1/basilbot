@@ -39,6 +39,3 @@ def sample_data(N):
         data.append(res)
 
     return convert_moisture_raw(sum(data)/N)
-
-def getMoisture():
-    return sample_data(5)
