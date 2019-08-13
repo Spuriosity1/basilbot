@@ -30,3 +30,17 @@ def setHistory(moisture):
     with open("/home/pi/data/history.csv",'a') as f:
         writer = csv.writer(f)
         writer.writerow([strftime('%Y-%m-%dT%H:%M:%S'), "%.2f" % moisture])
+
+def getRawWatering(num):
+    msg = ''
+    with open('/home/pi/data/history.csv','r') as f:
+        reader = csv.reader(f,delimiter=',')
+        lines = [row for row in reader]
+    for row in lines[-num:]:
+        msg += '{},{:d},{:d}\n'.format(row[0].replace('T',' '), int(row[1]), int(row[2]))
+    return msg
+
+def setWatering(power, time):
+    with open("/home/pi/data/water.csv",'a') as f:
+        writer = csv.writer(f)
+        writer.writerow([strftime('%Y-%m-%dT%H:%M:%S'), "%d" % power, "%d" % time])

@@ -46,6 +46,7 @@ def dinput(msg, dflt):
     return ans if len(ans)>0 else dflt
 
 def generate():
+    raise NotImplementedError
     print('Generating new config file... (Ctrl-D to exit)')
 
     # Automatic measurement

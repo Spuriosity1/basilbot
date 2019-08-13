@@ -1,6 +1,7 @@
 import smbus2
 import struct
 import time
+from libbasil_history import setWatering
 
 
 CHANNEL = 0x08
@@ -15,6 +16,8 @@ bus = smbus2.SMBus(1)
 
 
 def water(speed, time):
+    # Saves the fact that the plant is watered
+    setWatering(speed, time)
     req_str  = struct.pack('<B',speed)
     req_str += struct.pack('<H',1024*time)
     bus.write_i2c_block_data(CHANNEL, ord('W'), req_str)
