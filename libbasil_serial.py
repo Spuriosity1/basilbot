@@ -2,6 +2,7 @@ import struct
 import csv
 import time
 import serial
+from libbasil_history import setWatering
 
 PORT = '/dev/cu.usbmodem14201'
 

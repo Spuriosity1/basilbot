@@ -1,24 +1,11 @@
 #!/usr/bin/python3
 import sys
+
 from libbasil_I2C import *
 from libbasil_history import *
 import config
 
-SIPP='''
-```
- _____ _
-/  ___(_)
-\\ `--. _ _ __  _ __
- `--. \\ | '_ \\| '_ \\
-/\\__/ / | |_) | |_) |
-\\____/|_| .__/| .__/
-        | |   | |
-        |_|   |_|
-```
-'''
-
 MAX_MOISTURE = 80
-
 
 if sys.argv[1] == 'moisture':
     mm = config.config['man_measure']
@@ -32,13 +19,17 @@ if sys.argv[1] == 'moisture':
 elif sys.argv[1] == 'history':
     if len(sys.argv) < 3:
         print(getHistory(12))
-    else:
+    elif len(sys.argv) == 3:
         print(getHistory(int(sys.argv[2])))
+    else:
+        print(getHistory(int(sys.argv[2]),int(sys.argv[3])))
 elif sys.argv[1] == 'raw_history':
     if len(sys.argv) < 3:
         print(getRawHistory(12))
-    else:
+    elif len(sys.argv) == 3:
         print(getRawHistory(int(sys.argv[2])))
+    else:
+        print(getRawHistory(int(sys.argv[2]),int(sys.argv[3])))
 elif sys.argv[1] == 'water':
     mw = config.config['man_water']
     try:
