@@ -33,10 +33,10 @@ if cfg['auto_water']['active']:
         water(255, 60)
         post_discord('**CRITICAL WATER LEVEL!**\n Last recorded moisture: {:.2f}%'.format(moisture))
     elif moisture < thresh['low']:
-        post_discord('Automatically watering for 60s. Last recorded moisture: {:.2f}%'.format(moisture))
         water(255, 60)
+        post_discord('Automatically watering for 60s. Last recorded moisture: {:.2f}%'.format(moisture))
     elif moisture < thresh['target']:
-        post_discord('Automatically watering for 10s. Last recorded moisture: {:.2f}%'.format(moisture))
         water(255, 20)
+        post_discord('Automatically watering for 10s. Last recorded moisture: {:.2f}%'.format(moisture))
     elif moisture > thresh['high']:
         post_discord('The soil is verging on too damp. Last recorded moisture: {:.2f}%'.format(moisture))
