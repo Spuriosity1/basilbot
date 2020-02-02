@@ -9,7 +9,7 @@ CHANNEL = 0x08
 def convert_moisture_raw(raw):
     # very scientific
     # 4 is for the left shifts employed in plantI2C.ino
-    return 4 * 100 * raw / 500
+    return 4 * 100 * raw // 500
 
 # Bus number is 1
 bus = smbus2.SMBus(1)
