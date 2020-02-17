@@ -13,6 +13,9 @@
 
 #define CHANNEL 0x08
 
+
+
+
 // FSM time
 #define IN_STATE 0xFF    // There is an unprocessed command loaded into the buffer
 #define READY_STATE 0x00 // Prepared to accept instructions
@@ -27,8 +30,8 @@ volatile byte idx = 0;
 
 volatile unsigned long laTime = millis(); // last access time
 
-const unsigned long autoTime = 1000*3600*24*3 // 3 days
-
+const unsigned long autoTime = 1000*3600*24; // 1 day
+#define AUTO_SECONDS 3600 // Number of seconds bewween autochecks
 
 //////////////////////////////////////////////////////////////
 // ISR FUNCTIONS
@@ -73,6 +76,7 @@ void setup() {
     pinMode(SOILPWR, OUTPUT);
     pinMode(MOTORPWR, OUTPUT);
     pinMode(MOTORDTEC, INPUT);
+    pinMode(13, OUTPUT);
 
     digitalWrite(MOTORPWR, HIGH);
 
@@ -86,6 +90,7 @@ void setup() {
 }
 
 unsigned int n = 0;
+bool LEDstate = false;
 void loop() {
     if (state == IN_STATE) {
         switch (Wire.read()) {
@@ -126,16 +131,28 @@ void loop() {
         }
         state = READY_STATE;
     } else if (state == AUTO_STATE){
-        if (n == 36000){
+        if (n == AUTO_SECONDS*10){
             n=0;
-            if (readMoisture(255,100)<75*5){
+            int m = readMoisture(255,100)/5;
+            #ifdef DEBUG
+            Serial.print("[AUTOWATER] -- read percent ");
+            Serial.println(m);
+            #endif
+            if (m <75){
                 motorPulse(255,10000);
             }
         }
         n++;
     }
     if ((unsigned long) (millis() - laTime) > autoTime){
-        state = AUTO_STATE;
+        #ifdef DEBUG
+        Serial.println("[AUTOWATER] -- automatic watering");
+        #endif
+        digitalWrite(13, HIGH);
+        LEDstate = !LEDstate;
+        digitalWrite(13, LEDstate);
+    } else {
+        digitalWrite(13, LOW);
     }
     delay(100);
 }
